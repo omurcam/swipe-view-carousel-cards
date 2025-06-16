@@ -30,13 +30,18 @@ export const RestaurantMenu: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState(categories[0]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="px-4 py-4">
-          <h1 className="text-2xl font-bold text-gray-800 text-center mb-4">
-            Restoran Menümüz
-          </h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Header with glass effect */}
+      <div className="backdrop-blur-lg bg-white/10 border-b border-white/20 sticky top-0 z-50 shadow-xl">
+        <div className="px-6 py-6">
+          <div className="text-center mb-6">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-rose-400 bg-clip-text text-transparent mb-2">
+              ✨ Restoran Menümüz
+            </h1>
+            <p className="text-white/80 text-sm font-medium">
+              Lezzetli yemeklerimizi keşfedin
+            </p>
+          </div>
           <CategorySelector
             categories={categories}
             activeCategory={activeCategory}
@@ -46,31 +51,44 @@ export const RestaurantMenu: React.FC = () => {
       </div>
 
       {/* Content */}
-      <div className="px-4 py-6">
-        <div className="text-center mb-6">
-          <h2 className="text-xl font-semibold text-gray-700 mb-2">
-            {activeCategory}
-          </h2>
-          <p className="text-gray-500 text-sm">
-            Kaydırarak diğer ürünleri görün
+      <div className="px-6 py-8">
+        <div className="text-center mb-8">
+          <div className="inline-block">
+            <h2 className="text-2xl font-bold text-white mb-3 relative">
+              {activeCategory}
+              <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full"></div>
+            </h2>
+          </div>
+          <p className="text-white/70 text-sm font-medium">
+            👆 Kartları kaydırarak diğer ürünleri görün
           </p>
         </div>
 
-        {/* Image Swiper */}
+        {/* Image Swiper with enhanced container */}
         <div className="flex justify-center">
-          <ImageSwiper
-            images={categoryImages[activeCategory as keyof typeof categoryImages]}
-            cardWidth={280}
-            cardHeight={320}
-            className="mx-auto"
-          />
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-rose-400/20 rounded-3xl blur-xl"></div>
+            <div className="relative backdrop-blur-sm bg-white/5 rounded-3xl p-6 border border-white/10">
+              <ImageSwiper
+                images={categoryImages[activeCategory as keyof typeof categoryImages]}
+                cardWidth={280}
+                cardHeight={320}
+                className="mx-auto"
+              />
+            </div>
+          </div>
         </div>
 
-        {/* Instructions */}
-        <div className="text-center mt-8 px-4">
-          <div className="bg-white rounded-lg p-4 shadow-sm">
-            <p className="text-gray-600 text-sm">
-              📱 Kartları sağa veya sola kaydırarak diğer yemekleri keşfedin
+        {/* Enhanced Instructions */}
+        <div className="text-center mt-10 px-4">
+          <div className="backdrop-blur-lg bg-white/10 rounded-2xl p-6 shadow-xl border border-white/20 max-w-md mx-auto">
+            <div className="flex items-center justify-center mb-3">
+              <div className="w-8 h-8 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full flex items-center justify-center">
+                <span className="text-white text-lg">📱</span>
+              </div>
+            </div>
+            <p className="text-white/90 text-sm font-medium leading-relaxed">
+              Kartları <span className="text-orange-400 font-semibold">sağa</span> veya <span className="text-rose-400 font-semibold">sola</span> kaydırarak diğer yemekleri keşfedin
             </p>
           </div>
         </div>

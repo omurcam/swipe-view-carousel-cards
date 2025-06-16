@@ -13,19 +13,22 @@ export const CategorySelector: React.FC<CategorySelectorProps> = ({
   onCategoryChange
 }) => {
   return (
-    <div className="w-full overflow-x-auto pb-2">
-      <div className="flex space-x-2 px-4 min-w-max">
+    <div className="w-full overflow-x-auto pb-3 scrollbar-hide">
+      <div className="flex space-x-3 px-2 min-w-max">
         {categories.map((category) => (
           <button
             key={category}
             onClick={() => onCategoryChange(category)}
-            className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+            className={`relative px-6 py-3 rounded-2xl text-sm font-semibold whitespace-nowrap transition-all duration-300 transform hover:scale-105 ${
               activeCategory === category
-                ? 'bg-orange-500 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white shadow-lg shadow-orange-500/25'
+                : 'backdrop-blur-sm bg-white/10 text-white/80 hover:bg-white/20 border border-white/20'
             }`}
           >
-            {category}
+            {activeCategory === category && (
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-rose-400 rounded-2xl blur opacity-50 -z-10"></div>
+            )}
+            <span className="relative z-10">{category}</span>
           </button>
         ))}
       </div>
