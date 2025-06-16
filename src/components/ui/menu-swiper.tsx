@@ -1,16 +1,23 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { MenuCard } from './menu-card';
 
-interface ImageSwiperProps {
-  images: string;
+interface MenuItem {
+  name: string;
+  price: string;
+  image: string;
+}
+
+interface MenuSwiperProps {
+  items: MenuItem[];
   cardWidth?: number;
   cardHeight?: number;
   className?: string;
 }
 
-export const ImageSwiper: React.FC<ImageSwiperProps> = ({
-  images,
-  cardWidth = 256,  // 16rem = 256px
-  cardHeight = 352, // 22rem = 352px
+export const MenuSwiper: React.FC<MenuSwiperProps> = ({
+  items,
+  cardWidth = 280,
+  cardHeight = 320,
   className = ''
 }) => {
   const cardStackRef = useRef<HTMLDivElement>(null);
@@ -19,9 +26,8 @@ export const ImageSwiper: React.FC<ImageSwiperProps> = ({
   const currentX = useRef(0);
   const animationFrameId = useRef<number | null>(null);
 
-  const imageList = images.split(',').map(img => img.trim()).filter(img => img);
   const [cardOrder, setCardOrder] = useState<number[]>(() =>
-    Array.from({ length: imageList.length }, (_, i) => i)
+    Array.from({ length: items.length }, (_, i) => i)
   );
 
   const getDurationFromCSS = useCallback((
@@ -40,7 +46,7 @@ export const ImageSwiper: React.FC<ImageSwiperProps> = ({
 
   const getCards = useCallback((): HTMLElement[] => {
     if (!cardStackRef.current) return [];
-    return [...cardStackRef.current.querySelectorAll('.image-card')] as HTMLElement[];
+    return [...cardStackRef.current.querySelectorAll('.menu-card')] as HTMLElement[];
   }, []);
 
   const getActiveCard = useCallback((): HTMLElement | null => {
@@ -75,7 +81,6 @@ export const ImageSwiper: React.FC<ImageSwiperProps> = ({
     if (card) card.style.transition = 'none';
   }, [getActiveCard]);
 
-  // ***** MOVED handleEnd DEFINITION BEFORE handleMove *****
   const handleEnd = useCallback(() => {
     if (!isSwiping.current) return;
     if (animationFrameId.current) {
@@ -116,12 +121,7 @@ export const ImageSwiper: React.FC<ImageSwiperProps> = ({
     isSwiping.current = false;
     startX.current = 0;
     currentX.current = 0;
-  // Dependencies for handleEnd:
-  // updatePositions was in the dependency array but not used directly in handleEnd body.
-  // It's called by useEffect when cardOrder changes, which is fine.
-  // If handleEnd was _meant_ to call updatePositions directly, it should be there.
-  // Assuming it's not, removing it from here. If it was intended, add it back.
-  }, [getDurationFromCSS, getActiveCard, applySwipeStyles]); // Removed updatePositions if not directly used
+  }, [getDurationFromCSS, getActiveCard, applySwipeStyles]);
 
   const handleMove = useCallback((clientX: number) => {
     if (!isSwiping.current) return;
@@ -134,10 +134,10 @@ export const ImageSwiper: React.FC<ImageSwiperProps> = ({
       applySwipeStyles(deltaX);
 
       if (Math.abs(deltaX) > 50) {
-        handleEnd(); // Now handleEnd is defined
+        handleEnd();
       }
     });
-  }, [applySwipeStyles, handleEnd]); // handleEnd is now a valid dependency
+  }, [applySwipeStyles, handleEnd]);
 
   useEffect(() => {
     const cardStackElement = cardStackRef.current;
@@ -171,6 +171,14 @@ export const ImageSwiper: React.FC<ImageSwiperProps> = ({
     updatePositions();
   }, [cardOrder, updatePositions]);
 
+  if (items.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-80 text-white/70">
+        Bu kategoride henüz ürün bulunmuyor
+      </div>
+    );
+  }
+
   return (
     <section
       className={`relative grid place-content-center select-none ${className}`}
@@ -183,21 +191,18 @@ export const ImageSwiper: React.FC<ImageSwiperProps> = ({
         '--card-perspective': '700px',
         '--card-z-offset': '12px',
         '--card-y-offset': '7px',
-        '--card-max-z-index': imageList.length.toString(),
+        '--card-max-z-index': items.length.toString(),
         '--card-swap-duration': '0.3s',
       } as React.CSSProperties}
     >
       {cardOrder.map((originalIndex, displayIndex) => (
         <article
-          key={`${imageList[originalIndex]}-${originalIndex}`}
-          className="image-card absolute cursor-grab active:cursor-grabbing
-                     place-self-center border border-slate-400 rounded-xl
-                     shadow-md overflow-hidden will-change-transform"
+          key={`${items[originalIndex]?.name}-${originalIndex}`}
+          className="menu-card absolute cursor-grab active:cursor-grabbing
+                     place-self-center will-change-transform"
           style={{
             '--i': (displayIndex + 1).toString(),
-            zIndex: imageList.length - displayIndex,
-            width: cardWidth,
-            height: cardHeight,
+            zIndex: items.length - displayIndex,
             transform: `perspective(var(--card-perspective))
                        translateZ(calc(-1 * var(--card-z-offset) * var(--i)))
                        translateY(calc(var(--card-y-offset) * var(--i)))
@@ -205,14 +210,15 @@ export const ImageSwiper: React.FC<ImageSwiperProps> = ({
                        rotateY(var(--swipe-rotate, 0deg))`
           } as React.CSSProperties}
         >
-          <img
-            src={imageList[originalIndex]}
-            alt={`Swiper image ${originalIndex + 1}`}
-            className="w-full h-full object-cover select-none pointer-events-none"
-            draggable={false}
+          <MenuCard
+            name={items[originalIndex]?.name || ''}
+            price={items[originalIndex]?.price || ''}
+            image={items[originalIndex]?.image || ''}
+            cardWidth={cardWidth}
+            cardHeight={cardHeight}
           />
         </article>
       ))}
     </section>
   );
-};
+}; 
