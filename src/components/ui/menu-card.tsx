@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 interface MenuCardProps {
   name: string;
@@ -8,7 +8,7 @@ interface MenuCardProps {
   cardHeight?: number;
 }
 
-export const MenuCard: React.FC<MenuCardProps> = ({
+export const MenuCard: React.FC<MenuCardProps> = memo(({
   name,
   price,
   image,
@@ -17,17 +17,27 @@ export const MenuCard: React.FC<MenuCardProps> = ({
 }) => {
   return (
     <div 
-      className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl bg-gradient-to-br from-slate-900/50 to-purple-900/50 backdrop-blur-sm transform transition-all duration-300 hover:scale-105"
-      style={{ width: cardWidth, height: cardHeight }}
+      className="relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl bg-gradient-to-br from-slate-900/50 to-purple-900/50 backdrop-blur-sm transform transition-transform duration-200 hover:scale-105"
+      style={{ 
+        width: cardWidth, 
+        height: cardHeight,
+        willChange: 'transform', // Optimize for animations
+        backfaceVisibility: 'hidden' // Improve rendering performance
+      }}
     >
       {/* Image */}
       <div className="relative h-3/5 overflow-hidden">
         <img
           src={image}
           alt={name}
-          className="w-full h-full object-cover transform transition-transform duration-500 hover:scale-110"
+          className="w-full h-full object-cover transform transition-transform duration-300 hover:scale-110"
           draggable={false}
           loading="lazy"
+          decoding="async" // Improve image loading performance
+          style={{
+            willChange: 'transform',
+            backfaceVisibility: 'hidden'
+          }}
         />
         {/* Strong gradient overlay for better text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-transparent" />
@@ -58,4 +68,4 @@ export const MenuCard: React.FC<MenuCardProps> = ({
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-400/20 via-transparent to-rose-400/20 pointer-events-none" />
     </div>
   );
-}; 
+}); 
