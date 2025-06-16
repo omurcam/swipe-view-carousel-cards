@@ -132,7 +132,7 @@ export const RestaurantMenu: React.FC = () => {
         <div className="px-3 sm:px-4 py-3 sm:py-4">
           <div className="text-center mb-3 sm:mb-4">
             <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-orange-400 to-rose-400 bg-clip-text text-transparent mb-1 animate-pulse">
-              ☕ Kahve Menümüz
+              ☕ StudyOu Kafe
             </h1>
             <p className="text-white/80 text-xs sm:text-sm font-medium">
               Lezzetli içeceklerimizi keşfedin
