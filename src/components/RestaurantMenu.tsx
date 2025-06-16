@@ -162,13 +162,13 @@ export const RestaurantMenu: React.FC = () => {
 
         {/* Image Swiper with enhanced container */}
         <div className="flex justify-center">
-          <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg">
+          <div className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl">
             <div className="absolute inset-0 bg-gradient-to-r from-orange-400/20 to-rose-400/20 rounded-2xl sm:rounded-3xl blur-xl animate-pulse-slow"></div>
             <div className="relative backdrop-blur-sm bg-white/5 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-white/10 shadow-2xl">
               <MenuSwiper
                 items={menuData[activeCategory as keyof typeof menuData] || []}
-                cardWidth={isMobile ? 240 : 280}
-                cardHeight={isMobile ? 280 : 320}
+                cardWidth={isMobile ? 300 : 350}
+                cardHeight={isMobile ? 360 : 420}
                 className="mx-auto"
               />
             </div>
