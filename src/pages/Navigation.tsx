@@ -16,15 +16,15 @@ const categories = [
 
 const Navigation: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-brand-secondary via-brand-dark to-brand-secondary">
       {/* Header */}
-      <div className="backdrop-blur-lg bg-white/10 border-b border-white/20 shadow-xl">
+      <div className="backdrop-blur-lg bg-brand-light/10 border-b border-brand-light/20 shadow-xl">
         <div className="px-4 py-6">
           <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-orange-400 to-rose-400 bg-clip-text text-transparent mb-2 animate-pulse">
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-brand-primary to-brand-primary/80 bg-clip-text text-transparent mb-2 animate-pulse">
               ☕ StudyOu Kafe
             </h1>
-            <p className="text-white/80 text-sm font-medium">
+            <p className="text-brand-light/80 text-sm font-medium">
               Menü kategorilerimizi keşfedin
             </p>
           </div>
@@ -35,10 +35,10 @@ const Navigation: React.FC = () => {
       <div className="px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
+            <h2 className="text-2xl md:text-3xl font-bold text-brand-light mb-4">
               Menü Kategorileri
             </h2>
-            <p className="text-white/70 text-sm">
+            <p className="text-brand-light/70 text-sm">
               Bir kategori seçerek o kategorideki ürünleri görüntüleyebilirsiniz
             </p>
           </div>
@@ -48,34 +48,34 @@ const Navigation: React.FC = () => {
               <Link
                 key={category.id}
                 to={`/kategori/${category.slug}`}
-                className="group relative overflow-hidden rounded-2xl border border-white/10 shadow-2xl bg-gradient-to-br from-slate-900/50 to-purple-900/50 backdrop-blur-sm transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
+                className="group relative overflow-hidden rounded-2xl border border-brand-light/20 shadow-2xl bg-gradient-to-br from-brand-secondary/80 to-brand-dark/80 backdrop-blur-sm transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
                 style={{
                   animationDelay: `${index * 0.1}s`
                 }}
               >
                 {/* Gradient Background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-400/20 via-transparent to-rose-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/20 via-transparent to-brand-primary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
                 {/* Content */}
                 <div className="relative p-6 text-center min-h-[140px] flex flex-col justify-center">
                   <div className="mb-3">
                     {/* Icon based on category */}
-                    <div className="w-12 h-12 mx-auto bg-gradient-to-r from-orange-400 to-rose-400 rounded-full flex items-center justify-center text-white text-xl font-bold group-hover:scale-110 transition-transform duration-300">
+                    <div className="w-12 h-12 mx-auto bg-gradient-to-r from-brand-primary to-brand-primary/80 rounded-full flex items-center justify-center text-white text-xl font-bold group-hover:scale-110 transition-transform duration-300">
                       {getCategoryIcon(category.slug)}
                     </div>
                   </div>
                   
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-orange-300 transition-colors duration-300">
+                  <h3 className="text-lg font-bold text-brand-light mb-2 group-hover:text-brand-primary/90 transition-colors duration-300">
                     {category.name}
                   </h3>
                   
-                  <div className="text-xs text-white/60 font-medium">
+                  <div className="text-xs text-brand-light/60 font-medium">
                     Kategoriye Git →
                   </div>
                 </div>
 
                 {/* Hover effect border */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-400/0 via-transparent to-rose-400/0 group-hover:from-orange-400/30 group-hover:to-rose-400/30 pointer-events-none transition-all duration-300" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-brand-primary/0 via-transparent to-brand-primary/0 group-hover:from-brand-primary/30 group-hover:to-brand-primary/20 pointer-events-none transition-all duration-300" />
               </Link>
             ))}
           </div>
@@ -84,13 +84,13 @@ const Navigation: React.FC = () => {
 
       {/* Footer Info */}
       <div className="text-center mt-12 pb-8">
-        <div className="backdrop-blur-lg bg-white/10 rounded-2xl p-6 shadow-xl border border-white/20 max-w-md mx-auto">
+        <div className="backdrop-blur-lg bg-brand-light/10 rounded-2xl p-6 shadow-xl border border-brand-light/20 max-w-md mx-auto">
           <div className="flex items-center justify-center mb-3">
-            <div className="w-8 h-8 bg-gradient-to-r from-orange-400 to-rose-400 rounded-full flex items-center justify-center animate-spin-slow">
+            <div className="w-8 h-8 bg-gradient-to-r from-brand-primary to-brand-primary/80 rounded-full flex items-center justify-center animate-spin-slow">
               <span className="text-white text-lg">📱</span>
             </div>
           </div>
-          <p className="text-white/90 text-sm font-medium leading-relaxed">
+          <p className="text-brand-light/90 text-sm font-medium leading-relaxed">
             Her kategoride özel olarak seçilmiş lezzetli ürünlerimizi keşfedin
           </p>
         </div>
