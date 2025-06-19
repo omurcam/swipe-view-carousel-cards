@@ -12,7 +12,7 @@ export const tempCategories = [
 // Gerçek menü verileri
 export const menuData = {
   '1': [ // Klasikler
-    { name: 'Espresso', price: 'Orta: 80₺, Büyük: 95₺', image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?fm=webp&w=400&h=600&fit=crop&q=80' },
+    { name: 'Espresso', price: 'Orta: 80₺, Büyük: 95₺', image: 'mo.png' },
     { name: 'Double Espresso', price: '100₺', image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?fm=webp&w=400&h=600&fit=crop&q=80' },
     { name: 'Americano', price: 'Orta: 140₺, Büyük: 155₺', image: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?fm=webp&w=400&h=600&fit=crop&q=80' },
     { name: 'Filtre Kahve', price: 'Orta: 135₺, Büyük: 150₺', image: 'https://images.unsplash.com/photo-1497636577773-f1231844b336?fm=webp&w=400&h=600&fit=crop&q=80' },
