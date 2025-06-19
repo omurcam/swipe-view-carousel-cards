@@ -1,18 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-// Kategoriler - mevcut verilerle uyumlu
-const categories = [
-  { id: '1', name: 'Klasikler', slug: 'klasikler', display_order: 1 },
-  { id: '2', name: 'Aromalı Kahveler', slug: 'aromali-kahveler', display_order: 2 },
-  { id: '3', name: "Special's", slug: 'specials', display_order: 3 },
-  { id: '4', name: 'Soğuk İçecekler', slug: 'soguk-icecekler', display_order: 4 },
-  { id: '5', name: 'Sıcak İçecekler', slug: 'sicak-icecekler', display_order: 5 },
-  { id: '6', name: 'Milkshake & Frozen', slug: 'milkshake-frozen', display_order: 6 },
-  { id: '7', name: 'Yiyecekler', slug: 'yiyecekler', display_order: 7 },
-  { id: '8', name: 'Tatlılar', slug: 'tatlilar', display_order: 8 }
-];
+import { tempCategories as categories } from '@/data/menu-data';
 
 const Navigation: React.FC = () => {
   return (
