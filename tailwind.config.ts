@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -19,6 +20,13 @@ export default {
 		},
 		extend: {
 			colors: {
+				// Kurumsal renk paleti
+				brand: {
+					primary: '#E54460',    // Pantone 426 C
+					secondary: '#242729',  // Pantone 198 C
+					light: '#F8E7EA',      // Primary açık tonu
+					dark: '#1A1C1E'        // Secondary koyu tonu
+				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
