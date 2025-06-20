@@ -60,7 +60,8 @@ const CategoryPage: React.FC = () => {
   // Convert menu items to the format expected by MenuSwiper
   const swiperItems = menuItems.map(item => ({
     name: item.name,
-    price: item.price ? `${item.price}₺` : 'Fiyat bilgisi yok',
+    price: item.price ? `${item.price} TL` : undefined,
+    sizePrices: item.size_prices as any, // Type assertion for JSON field
     image: item.image_url || 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085',
     description: item.description
   }));
@@ -115,8 +116,8 @@ const CategoryPage: React.FC = () => {
               {swiperItems.length > 0 ? (
                 <MenuSwiper
                   items={swiperItems}
-                  cardWidth={isMobile ? 300 : 350}
-                  cardHeight={isMobile ? 360 : 420}
+                  cardWidth={isMobile ? 320 : 380}
+                  cardHeight={isMobile ? 400 : 480}
                   className="mx-auto"
                 />
               ) : (

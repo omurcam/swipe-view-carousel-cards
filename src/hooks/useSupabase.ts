@@ -19,6 +19,7 @@ export interface MenuItem {
   name: string
   description?: string
   price?: number
+  size_prices?: any // JSON field for size-based pricing
   image_url?: string
   display_order: number
   is_active: boolean

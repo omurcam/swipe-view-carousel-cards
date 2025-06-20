@@ -1,9 +1,16 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { MenuCard } from './menu-card';
 
+interface SizePrices {
+  small?: number | null;
+  medium?: number | null;
+  large?: number | null;
+}
+
 interface MenuItem {
   name: string;
-  price: string;
+  price?: string;
+  sizePrices?: SizePrices;
   image: string;
 }
 
@@ -254,6 +261,7 @@ export const MenuSwiper: React.FC<MenuSwiperProps> = ({
             <MenuCard
               name={item.name}
               price={item.price}
+              sizePrices={item.sizePrices}
               image={item.image}
               cardWidth={cardWidth}
               cardHeight={cardHeight}

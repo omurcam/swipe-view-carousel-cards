@@ -22,6 +22,11 @@ const AdminPage = () => {
     name: '',
     description: '',
     price: '',
+    size_prices: {
+      small: '',
+      medium: '',
+      large: ''
+    },
     image_url: '',
     category_id: ''
   });
@@ -36,15 +41,15 @@ const AdminPage = () => {
       await createCategory.mutateAsync({
         name: newCategory.name,
         slug: newCategory.slug,
-        image_url: newCategory.image_url || null,
+        image_url: newCategory.image_url || undefined,
         display_order: categories.length + 1,
         is_active: true
-      });
+      } as any);
       setNewCategory({ name: '', slug: '', image_url: '' });
       toast.success('Kategori başarıyla oluşturuldu');
     } catch (error) {
-      toast.error('Kategori oluşturulurken hata oluştu');
-      console.error(error);
+      console.error('Kategori oluşturma hatası:', error);
+      toast.error(`Kategori oluşturulurken hata oluştu: ${error instanceof Error ? error.message : 'Bilinmeyen hata'}`);
     }
   };
 
@@ -65,20 +70,34 @@ const AdminPage = () => {
     }
 
     try {
+      // Process size prices
+      const sizePricesObject: any = {};
+      if (newMenuItem.size_prices.small) sizePricesObject.small = parseFloat(newMenuItem.size_prices.small);
+      if (newMenuItem.size_prices.medium) sizePricesObject.medium = parseFloat(newMenuItem.size_prices.medium);
+      if (newMenuItem.size_prices.large) sizePricesObject.large = parseFloat(newMenuItem.size_prices.large);
+
       await createMenuItem.mutateAsync({
         name: newMenuItem.name,
         description: newMenuItem.description || undefined,
         price: newMenuItem.price ? parseFloat(newMenuItem.price) : undefined,
+        size_prices: Object.keys(sizePricesObject).length > 0 ? sizePricesObject : undefined,
         image_url: newMenuItem.image_url || undefined,
         category_id: newMenuItem.category_id,
         display_order: 1,
         is_active: true
+      } as any);
+      setNewMenuItem({ 
+        name: '', 
+        description: '', 
+        price: '', 
+        size_prices: { small: '', medium: '', large: '' },
+        image_url: '', 
+        category_id: '' 
       });
-      setNewMenuItem({ name: '', description: '', price: '', image_url: '', category_id: '' });
       toast.success('Ürün başarıyla oluşturuldu');
     } catch (error) {
-      toast.error('Ürün oluşturulurken hata oluştu');
-      console.error(error);
+      console.error('Ürün oluşturma hatası:', error);
+      toast.error(`Ürün oluşturulurken hata oluştu: ${error instanceof Error ? error.message : 'Bilinmeyen hata'}`);
     }
   };
 
@@ -222,9 +241,47 @@ const AdminPage = () => {
                 ))}
               </select>
             </div>
+            
+            {/* Size-based pricing */}
+            <div className="mb-2">
+              <label className="text-sm font-medium mb-1 block">Boy Bazlı Fiyatlandırma</label>
+              <div className="grid grid-cols-3 gap-2">
+                <Input
+                  placeholder="Küçük (TL)"
+                  type="number"
+                  step="0.01"
+                  value={newMenuItem.size_prices.small}
+                  onChange={(e) => setNewMenuItem(prev => ({ 
+                    ...prev, 
+                    size_prices: { ...prev.size_prices, small: e.target.value }
+                  }))}
+                />
+                <Input
+                  placeholder="Orta (TL)"
+                  type="number"
+                  step="0.01"
+                  value={newMenuItem.size_prices.medium}
+                  onChange={(e) => setNewMenuItem(prev => ({ 
+                    ...prev, 
+                    size_prices: { ...prev.size_prices, medium: e.target.value }
+                  }))}
+                />
+                <Input
+                  placeholder="Büyük (TL)"
+                  type="number"
+                  step="0.01"
+                  value={newMenuItem.size_prices.large}
+                  onChange={(e) => setNewMenuItem(prev => ({ 
+                    ...prev, 
+                    size_prices: { ...prev.size_prices, large: e.target.value }
+                  }))}
+                />
+              </div>
+            </div>
+
             <div className="grid grid-cols-2 gap-2 mb-2">
               <Input
-                placeholder="Fiyat"
+                placeholder="Tek Fiyat (opsiyonel)"
                 type="number"
                 step="0.01"
                 value={newMenuItem.price}
