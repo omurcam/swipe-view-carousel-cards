@@ -34,12 +34,11 @@ const Navigation: React.FC = () => {
       <div className="backdrop-blur-lg bg-brand-light/10 border-b border-brand-light/20 shadow-xl">
         <div className="px-4 py-6">
           <div className="text-center">
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-brand-primary to-brand-primary/80 bg-clip-text text-transparent mb-2 animate-pulse">
-              ☕ StudyOu Kafe
-            </h1>
-            <p className="text-brand-light/80 text-sm font-medium">
-              Menü kategorilerimizi keşfedin
-            </p>
+            <img 
+              src="/studyoulogo.png" 
+              alt="StudyOu Kafe" 
+              className="h-16 mx-auto"
+            />
           </div>
         </div>
       </div>
