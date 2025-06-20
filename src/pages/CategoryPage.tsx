@@ -81,9 +81,11 @@ const CategoryPage: React.FC = () => {
           </div>
           
           <div className="text-center">
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold bg-gradient-to-r from-brand-primary to-brand-primary/80 bg-clip-text text-transparent mb-1 animate-pulse">
-              ☕ StudyOu Kafe
-            </h1>
+            <img 
+              src="/studyoulogo.png" 
+              alt="StudyOu Kafe" 
+              className="h-12 sm:h-14 mx-auto mb-2 filter drop-shadow-xl"
+            />
             <p className="text-brand-light/80 text-xs sm:text-sm font-medium">
               {category.name} kategorisi
             </p>

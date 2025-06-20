@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import { useCategories, useMenuItemsWithCategory, useCreateCategory, useUpdateCategory, useCreateMenuItem, useUpdateMenuItem } from '@/hooks/useSupabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,7 +17,7 @@ const AdminPage = () => {
   const createMenuItem = useCreateMenuItem();
   const updateMenuItem = useUpdateMenuItem();
 
-  const [newCategory, setNewCategory] = useState({ name: '', slug: '' });
+  const [newCategory, setNewCategory] = useState({ name: '', slug: '', image_url: '' });
   const [newMenuItem, setNewMenuItem] = useState({
     name: '',
     description: '',
@@ -34,10 +36,11 @@ const AdminPage = () => {
       await createCategory.mutateAsync({
         name: newCategory.name,
         slug: newCategory.slug,
+        image_url: newCategory.image_url || null,
         display_order: categories.length + 1,
         is_active: true
       });
-      setNewCategory({ name: '', slug: '' });
+      setNewCategory({ name: '', slug: '', image_url: '' });
       toast.success('Kategori başarıyla oluşturuldu');
     } catch (error) {
       toast.error('Kategori oluşturulurken hata oluştu');
@@ -101,8 +104,34 @@ const AdminPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 space-y-6">
-      <h1 className="text-3xl font-bold mb-4">Admin Panel</h1>
+    <div className="min-h-screen bg-gradient-to-br from-brand-secondary via-brand-dark to-brand-secondary">
+      {/* Header */}
+      <div className="backdrop-blur-lg bg-brand-light/5 border-b border-brand-light/10">
+        <div className="px-4 py-6">
+          <div className="flex items-center mb-3">
+            <Link 
+              to="/" 
+              className="flex items-center space-x-2 text-brand-light/80 hover:text-brand-light transition-colors duration-200 mr-4"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <span className="text-sm font-medium">Ana Sayfa</span>
+            </Link>
+          </div>
+          
+          <div className="text-center">
+            <img 
+              src="/studyoulogo.png" 
+              alt="StudyOu Kafe" 
+              className="h-16 mx-auto mb-2 filter drop-shadow-xl"
+            />
+            <p className="text-brand-light/80 text-sm font-medium">
+              Admin Panel
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto p-4 space-y-6">
       
       {/* Categories Section */}
       <Card>
@@ -125,6 +154,13 @@ const AdminPage = () => {
                 onChange={(e) => setNewCategory(prev => ({ ...prev, slug: e.target.value }))}
               />
             </div>
+            <div className="mb-2">
+              <Input
+                placeholder="Kategori görsel URL'si"
+                value={newCategory.image_url}
+                onChange={(e) => setNewCategory(prev => ({ ...prev, image_url: e.target.value }))}
+              />
+            </div>
             <Button onClick={handleCreateCategory} disabled={createCategory.isPending}>
               {createCategory.isPending ? 'Oluşturuluyor...' : 'Kategori Ekle'}
             </Button>
@@ -132,16 +168,27 @@ const AdminPage = () => {
 
           {/* Existing categories */}
           {categories.map((category) => (
-            <div key={category.id} className="grid grid-cols-3 gap-2 items-center border p-2 rounded">
-              <Input
-                value={category.name}
-                onChange={(e) => handleUpdateCategory(category.id, { name: e.target.value })}
-              />
-              <Input
-                value={category.slug}
-                onChange={(e) => handleUpdateCategory(category.id, { slug: e.target.value })}
-              />
-              <div className="text-sm text-gray-500">
+            <div key={category.id} className="space-y-2 border p-3 rounded-lg">
+              <div className="grid grid-cols-2 gap-2">
+                <Input
+                  placeholder="Kategori adı"
+                  value={category.name}
+                  onChange={(e) => handleUpdateCategory(category.id, { name: e.target.value })}
+                />
+                <Input
+                  placeholder="Slug"
+                  value={category.slug}
+                  onChange={(e) => handleUpdateCategory(category.id, { slug: e.target.value })}
+                />
+              </div>
+              <div className="grid grid-cols-1 gap-2">
+                <Input
+                  placeholder="Görsel URL"
+                  value={(category as any).image_url || ''}
+                  onChange={(e) => handleUpdateCategory(category.id, { image_url: e.target.value })}
+                />
+              </div>
+              <div className="text-xs text-gray-500">
                 ID: {category.id.slice(0, 8)}...
               </div>
             </div>
@@ -236,6 +283,7 @@ const AdminPage = () => {
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };
