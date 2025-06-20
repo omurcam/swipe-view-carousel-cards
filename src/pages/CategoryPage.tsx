@@ -1,12 +1,20 @@
+
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import { MenuSwiper } from '@/components/ui/menu-swiper';
-import { tempCategories, menuData } from '@/data/menu-data';
+import { useCategories, useMenuItems } from '@/hooks/useSupabase';
 
 const CategoryPage: React.FC = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
   const [isMobile, setIsMobile] = React.useState<boolean>(false);
+
+  // Fetch categories and find the current category
+  const { data: categories = [], isLoading: categoriesLoading } = useCategories();
+  const category = categories.find(c => c.slug === categorySlug);
+
+  // Fetch menu items for this category
+  const { data: menuItems = [], isLoading: menuItemsLoading } = useMenuItems(category?.id);
 
   // Check if mobile on mount and resize
   React.useEffect(() => {
@@ -20,7 +28,18 @@ const CategoryPage: React.FC = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const category = tempCategories.find(c => c.slug === categorySlug);
+  const isLoading = categoriesLoading || menuItemsLoading;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-brand-secondary via-brand-dark to-brand-secondary flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-brand-primary mx-auto mb-4"></div>
+          <p className="text-brand-light">Ürünler yükleniyor...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!categorySlug || !category) {
     return (
@@ -38,8 +57,13 @@ const CategoryPage: React.FC = () => {
     );
   }
 
-  const categoryData = menuData[category.id as keyof typeof menuData] || [];
-  const categoryName = category.name;
+  // Convert menu items to the format expected by MenuSwiper
+  const swiperItems = menuItems.map(item => ({
+    name: item.name,
+    price: item.price ? `${item.price}₺` : 'Fiyat bilgisi yok',
+    image: item.image_url || 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085',
+    description: item.description
+  }));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-brand-secondary via-brand-dark to-brand-secondary">
@@ -61,7 +85,7 @@ const CategoryPage: React.FC = () => {
               ☕ StudyOu Kafe
             </h1>
             <p className="text-brand-light/80 text-xs sm:text-sm font-medium">
-              {categoryName} kategorisi
+              {category.name} kategorisi
             </p>
           </div>
         </div>
@@ -72,7 +96,7 @@ const CategoryPage: React.FC = () => {
         <div className="text-center mb-6 sm:mb-8">
           <div className="inline-block">
             <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-brand-light mb-2 sm:mb-3 relative animate-fade-in">
-              {categoryName}
+              {category.name}
               <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-brand-primary to-brand-primary/80 rounded-full animate-width"></div>
             </h2>
           </div>
@@ -86,12 +110,18 @@ const CategoryPage: React.FC = () => {
           <div className="relative w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl">
             <div className="absolute inset-0 bg-gradient-to-r from-brand-primary/20 to-brand-primary/30 rounded-2xl sm:rounded-3xl blur-xl animate-pulse-slow"></div>
             <div className="relative backdrop-blur-sm bg-brand-light/5 rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-brand-light/10 shadow-2xl">
-              <MenuSwiper
-                items={categoryData}
-                cardWidth={isMobile ? 300 : 350}
-                cardHeight={isMobile ? 360 : 420}
-                className="mx-auto"
-              />
+              {swiperItems.length > 0 ? (
+                <MenuSwiper
+                  items={swiperItems}
+                  cardWidth={isMobile ? 300 : 350}
+                  cardHeight={isMobile ? 360 : 420}
+                  className="mx-auto"
+                />
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-brand-light/70">Bu kategoride henüz ürün bulunmuyor.</p>
+                </div>
+              )}
             </div>
           </div>
         </div>

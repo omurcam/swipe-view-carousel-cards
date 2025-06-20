@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Category } from '@/lib/supabase';
+import { Category } from '@/hooks/useSupabase';
 
 interface CategorySelectorProps {
   categories: Category[];

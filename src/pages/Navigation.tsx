@@ -1,8 +1,33 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { tempCategories as categories } from '@/data/menu-data';
+import { useCategories } from '@/hooks/useSupabase';
 
 const Navigation: React.FC = () => {
+  const { data: categories = [], isLoading, error } = useCategories();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-brand-secondary via-brand-dark to-brand-secondary flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-brand-primary mx-auto mb-4"></div>
+          <p className="text-brand-light">Kategoriler yükleniyor...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-brand-secondary via-brand-dark to-brand-secondary flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-brand-light mb-4">Hata</h1>
+          <p className="text-brand-light/80">Kategoriler yüklenirken bir hata oluştu.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-brand-secondary via-brand-dark to-brand-secondary">
       {/* Header */}
